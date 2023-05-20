@@ -1,0 +1,26 @@
+import React from 'react';
+import { Grid } from '../Grid';
+import { Point } from '../Point';
+
+function AppUI() {
+  const QUANTITY_GRID = 20;
+  const POINTS = [];
+
+  for (let x = -QUANTITY_GRID; x <= QUANTITY_GRID; x++) {
+    for (let y = -QUANTITY_GRID; y <= QUANTITY_GRID; y++) {
+      POINTS.push({ x: x, y: y, isAlive: x == y });
+    }
+  }
+
+  return (
+    <>
+      <Grid>
+        {POINTS.map((_point) => (
+          <Point key={`${_point.x},${_point.y}`} isAlive={_point.isAlive} />
+        ))}
+      </Grid>
+    </>
+  );
+}
+
+export { AppUI };
