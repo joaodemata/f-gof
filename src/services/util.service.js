@@ -1,6 +1,7 @@
 import React from 'react';
+import socket from '../socket';
 
-function useLocalStorage(_itemName, _initialValue) {
+function useLocalStorageService(_itemName, _initialValue) {
   const [item, setItem] = React.useState(_initialValue);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(false);
@@ -33,17 +34,8 @@ function useLocalStorage(_itemName, _initialValue) {
   return { item, saveItem, loading, error };
 }
 
-export { useLocalStorage };
+function emitGameService(_initialPoints) {
+  socket.emit('start_game', _initialPoints);
+}
 
-// const defaultTODOS = [
-//   { text: 'primera tarea', completed: true },
-//   { text: 'segunda tarea', completed: false },
-//   { text: 'tercera tarea', completed: true },
-//   { text: 'cuarta tarea', completed: true },
-//   { text: 'quinta tarea', completed: true },
-//   { text: 'sexta tarea', completed: true },
-// ];
-
-// localStorage.setItem('TODOS_V1', JSON.stringify(defaultTODOS));
-// localStorage.getItem()
-// localStorage.removeItem()
+export { useLocalStorageService, emitGameService };
