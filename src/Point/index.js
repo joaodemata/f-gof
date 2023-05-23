@@ -1,9 +1,20 @@
 import './Point.css';
 
-function Point({ isAlive }) {
-  console.log({ isAlive });
+function Point({ x, y, isAlive, points, setPoints, started }) {
   const STYLE = isAlive ? 'grid-item is-alive' : 'grid-item';
-  return <div className={STYLE}>.</div>;
+
+  const onLiveCell = () => {
+    const NEW_POINTS = points.map((_point) => {
+      if (_point.x == x && _point.y == y && !started) {
+        _point.isAlive = !isAlive;
+      }
+      return _point;
+    });
+
+    setPoints(NEW_POINTS);
+  };
+
+  return <div className={STYLE} onClick={onLiveCell}></div>;
 }
 
 export { Point };
