@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/conway-game/static/css/main.8c0db012.css",
+    "main.js": "/conway-game/static/js/main.10f9015a.js",
+    "index.html": "/conway-game/index.html",
+    "main.8c0db012.css.map": "/conway-game/static/css/main.8c0db012.css.map",
+    "main.10f9015a.js.map": "/conway-game/static/js/main.10f9015a.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8c0db012.css",
+    "static/js/main.10f9015a.js"
+  ]
+}

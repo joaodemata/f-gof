@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { Grid } from '../Grid';
-import { Point } from '../Point';
-import { Start } from '../Start';
-import socket from '../socket';
+import { useState } from "react";
+import { Grid } from "../Grid";
+import { Point } from "../Point";
+import { Start } from "../Start";
+import socket from "../socket";
 
 function AppUI() {
   const QUANTITY_GRID = 20;
@@ -17,18 +17,34 @@ function AppUI() {
 
   const [points, setPoints] = useState(POINTS);
 
-  socket.on('change', (_points) => {
+  socket.on("change", (_points) => {
     setPoints(_points.data);
+  });
+
+  socket.on("finish", (_iterations) => {
+    // Juego finalizo
+    console.log(`Cantidad de iteraciones: ${_iterations}`);
+    setStarted(false);
   });
 
   return (
     <>
       <Grid>
         {points.map((_point) => (
-          <Point key={`${_point.x},${_point.y}`} x={_point.x} y={_point.y} isAlive={_point.isAlive} points={points} setPoints={setPoints} started={started} />
+          <Point
+            key={`${_point.x},${_point.y}`}
+            x={_point.x}
+            y={_point.y}
+            isAlive={_point.isAlive}
+            points={points}
+            setPoints={setPoints}
+            started={started}
+          />
         ))}
       </Grid>
-      {!started && <Start started={started} setStarted={setStarted} points={points} />}
+      {!started && (
+        <Start started={started} setStarted={setStarted} points={points} />
+      )}
     </>
   );
 }
