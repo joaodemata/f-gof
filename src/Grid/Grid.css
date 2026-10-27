@@ -1,11 +1,21 @@
 .grid-container {
-    display: grid;
-    background:white;
-    position:absolute;
-    top:0px;
-    right:0px;
-    bottom:0px;
-    left:0px;
-    grid-template-columns: repeat(41 /* Este valor debe ser el DOBLE DEL   tamaño de la grilla + 1 */, 1fr );
-    grid-auto-rows: minmax(1px, auto);
+  display: grid;
+  grid-template-columns: repeat(var(--cells), 1fr);
+  gap: 1px;
+  /* Cuadrada y siempre visible completa dentro de la ventana */
+  width: min(100%, calc(100vh - 140px));
+  min-width: 260px;
+  aspect-ratio: 1;
+  padding: 1px;
+  box-sizing: border-box;
+  background: var(--grid-line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  touch-action: none;
+  user-select: none;
+}
+
+.grid-container.is-editable {
+  cursor: crosshair;
 }

@@ -1,13 +1,53 @@
+:root {
+  --bg: #f2f4f5;
+  --surface: #ffffff;
+  --surface-hover: #f0f2f3;
+  --border: #dde1e4;
+  --text: #1e1e1f;
+  --text-muted: #646a70;
+  --accent: #5b8c1a;
+  --accent-hover: #4c7714;
+  --on-accent: #ffffff;
+  --alive: #6aa121;
+  --cell: #ffffff;
+  --cell-hover: #e4eed6;
+  --grid-line: #e3e6e8;
+  --danger: #c93a3a;
+  --danger-hover: #b02f2f;
+  --danger-soft: #fbeaea;
+  --radius: 12px;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.05);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121416;
+    --surface: #1b1e21;
+    --surface-hover: #24282c;
+    --border: #2e3338;
+    --text: #e8eaec;
+    --text-muted: #969da4;
+    --accent: #97ca3f;
+    --accent-hover: #a8d65a;
+    --on-accent: #142004;
+    --alive: #97ca3f;
+    --cell: #181a1d;
+    --cell-hover: #263020;
+    --grid-line: #24282c;
+    --danger: #d9534f;
+    --danger-hover: #e26763;
+    --danger-soft: #2e1a1a;
+    --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+    color-scheme: dark;
+  }
+}
+
 body {
   margin: 0;
   padding: 0;
-  background: #f2f4f5;
-  color: #1e1e1f;
+  background: var(--bg);
+  color: var(--text);
   font-family: 'Montserrat', Arial, Helvetica, sans-serif;
-}
-
-#root {
-  margin: 0 24px;
-  position: relative;
-  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
 }

@@ -1,51 +1,69 @@
-import { useState } from "react";
-import { Grid } from "../Grid";
-import { Point } from "../Point";
-import { Start } from "../Start";
-import socket from "../socket";
+import { useEffect } from 'react';
+import { Grid } from '../Grid';
+import { Point } from '../Point';
+import { Stats } from '../Stats';
+import { Controls } from '../Controls';
+import { useGame, STATUS } from './useGame';
+import './App.css';
+
+// Celdas hacia cada lado del origen: la grilla es de (2 * QUANTITY_GRID + 1) por lado
+const QUANTITY_GRID = 20;
 
 function AppUI() {
-  const QUANTITY_GRID = 20;
-  const POINTS = [];
-  // Determina si ya empezo el juego
-  const [started, setStarted] = useState(false);
-  for (let y = QUANTITY_GRID; y >= -QUANTITY_GRID; y--) {
-    for (let x = -QUANTITY_GRID; x <= QUANTITY_GRID; x++) {
-      POINTS.push({ x: x, y: y, isAlive: false });
-    }
-  }
+  const game = useGame(QUANTITY_GRID);
+  const { points, status, isRunning, population, start, stop } = game;
 
-  const [points, setPoints] = useState(POINTS);
+  // Atajo de teclado: espacio inicia o detiene la partida
+  useEffect(() => {
+    const onKeyDown = (_event) => {
+      if (_event.code !== 'Space' || ['BUTTON', 'INPUT', 'TEXTAREA'].includes(_event.target.tagName)) {
+        return;
+      }
+      _event.preventDefault();
+      if (isRunning) {
+        stop();
+      } else if (population > 0) {
+        start();
+      }
+    };
 
-  socket.on("change", (_points) => {
-    setPoints(_points.data);
-  });
-
-  socket.on("finish", (_iterations) => {
-    // Juego finalizo
-    console.log(`Cantidad de iteraciones: ${_iterations}`);
-    setStarted(false);
-  });
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isRunning, population, start, stop]);
 
   return (
-    <>
-      <Grid>
-        {points.map((_point) => (
-          <Point
-            key={`${_point.x},${_point.y}`}
-            x={_point.x}
-            y={_point.y}
-            isAlive={_point.isAlive}
-            points={points}
-            setPoints={setPoints}
-            started={started}
-          />
-        ))}
-      </Grid>
-      {!started && (
-        <Start started={started} setStarted={setStarted} points={points} />
+    <div className="app">
+      <header className="app-header">
+        <h1 className="app-title">Juego de la vida</h1>
+        <Stats status={status} generation={game.generation} population={population} />
+      </header>
+
+      {status === STATUS.ERROR && (
+        <div className="app-alert" role="alert">
+          No se pudo conectar con el servidor del juego. Verifica que c-gof esté corriendo en el puerto 4000.
+        </div>
       )}
-    </>
+
+      <main className="app-main">
+        <Grid size={QUANTITY_GRID * 2 + 1} editable={!isRunning} onPaint={game.paint}>
+          {points.map((_point) => (
+            <Point key={`${_point.x},${_point.y}`} x={_point.x} y={_point.y} isAlive={_point.isAlive} />
+          ))}
+        </Grid>
+
+        <Controls
+          isRunning={isRunning}
+          population={population}
+          canRestore={game.canRestore}
+          onStart={start}
+          onStop={stop}
+          onRestore={game.restore}
+          onRandomize={game.randomize}
+          onClear={game.clear}
+          onLoadPattern={game.loadPattern}
+        />
+      </main>
+    </div>
   );
 }
 
