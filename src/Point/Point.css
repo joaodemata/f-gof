@@ -1,9 +1,13 @@
 .grid-item {
-    background-color: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(0, 0, 0, 0.8);
-    text-align: center;
-  }
+  background-color: var(--cell);
+  transition: background-color 120ms ease-out;
+}
 
-.is-alive {
-    background-color: black;
+.is-editable .grid-item:hover {
+  background-color: var(--cell-hover);
+}
+
+.grid-item.is-alive,
+.is-editable .grid-item.is-alive:hover {
+  background-color: var(--alive);
 }
